@@ -49,7 +49,16 @@ function makeBST (arr) {
   const tree =  buildTree(sortedArr);
 
   return {
+    tree: () => tree,
 
+    insert (value, tree = this.tree(), leafNode = null, branch) {
+      if (tree === null) return leafNode[branch] = Node(value);
+
+      let subtree = value < tree.root? "left": "right";
+      let leaf = tree[subtree] === null? tree: null;
+
+      return this.insert(value, tree[subtree], leaf, subtree);
+    },
   };
 };
 
