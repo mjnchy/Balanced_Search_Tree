@@ -76,7 +76,7 @@ function makeBST (arr) {
 
           if (singleChild === true) {
             let childNode = tree.left? tree.left: tree.right;
-            tree = childNode;
+            prevTree[branch] = childNode;
             delete childNode;
           }
 
@@ -105,26 +105,4 @@ let testTree = makeBST([5, 1, 2, 3, 10, 9, 8, 6, 7, 4]);
 // now that the array is sorted and the midpoint of the array is the top level root element, we are left with a defined root, a null left and a null right subtree in the node itself;
 // We come up with two new arrays, one for all items to the left of the midpoint in the original array and one for all items to the right of the midpoint of the original array;
 // We should now be able to recursively call the function to sort all the remaining items;
-//
-//
-// if (!value) return "parameter required";
-      // if (!tree) return `${value} does not exist in the tree`;
-      // 
-      // if (tree.root === value) {
-      //   if (!tree.left && !tree.right) {
-      //     prevNode[branch] = null;
-      //   } else {
-      //     tree.root = tree.left.root;
-      //     tree.left = tree.left.left? tree.left.left: null;
-      //   };
-      //
-      //   workingArr.splice(workingArr.indexOf(value, 1));
-      //   return `${value} has been removed from the tree`
-      // };
-      //
-      // let subtree = value < tree.root? "left": "right";
-      // let parent = tree;
-      //
-      //
-      // return this.delete(value, tree[subtree], parent, subtree);
 
