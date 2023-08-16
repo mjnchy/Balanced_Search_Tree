@@ -52,16 +52,16 @@ function makeBST (arr) {
   return {
     tree: () => tree,
 
-    insert (value, tree = this.tree(), leafNode = null, branch) {
+    insert (value, tree = this.tree(), currentTree = null, branch) {
+      if (currentTree && currentTree.root === value) return "duplicates not allowed";
       if (tree === null) {
         workingArr.push(value);
-        return leafNode[branch] = Node(value)
+        return currentTree[branch] = Node(value);
       };
 
-      let subtree = value < tree.root? "left": "right";
-      let leaf = tree[subtree] === null? tree: null;
+      let nextBranch = value < tree.root? "left": "right";
 
-      return this.insert(value, tree[subtree], leaf, subtree);
+      return this.insert(value, tree[nextBranch], tree, nextBranch);
     },
 
     delete (value, tree = this.tree(), prevTree = null, branch) {
