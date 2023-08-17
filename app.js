@@ -72,11 +72,20 @@ function makeBST (arr) {
       return this.insert(value, tree[nextBranch], tree, nextBranch);
     },
 
-    delete (value, tree = this.tree(), prevTree = null, branch) {
+    find (value, tree = this.tree(), prevTree = null, branch, cb = null) {
       if (!value) return "parameter required";
       if (!tree) return `${value} does not exist in the tree`;
 
-      if (value === tree.root) {
+      if (value === tree.root) return cb? cb(value, tree, prevTree, branch): tree;
+
+      let nextBranch = value < tree.root? "left": "right";
+
+      return this.find(value, tree[nextBranch], tree, nextBranch, cb);
+    },
+
+    delete (value) {
+      let self = this;
+      function cases (value, tree, prevTree = null, branch) {
         if (!tree.left && !tree.right) prevTree[branch] = null
 
         else {
@@ -90,7 +99,7 @@ function makeBST (arr) {
 
           else {
             let wanted = dfs(tree.right, "left").root;
-            this.delete(wanted, this.tree);
+            self.delete(wanted);
             prevTree[branch].root = wanted;
           };
         };
@@ -98,10 +107,9 @@ function makeBST (arr) {
         return `${value} has been successfully removed from the tree`;
       };
 
-      let nextBranch = value < tree.root? "left": "right";
-
-      return this.delete(value, tree[nextBranch], tree, nextBranch);
+      return this.find(value, this.tree(), null, null, cases);
     },
+
   };
 };
 
