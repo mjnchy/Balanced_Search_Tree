@@ -92,14 +92,6 @@ function makeBST (arr) {
             let wanted = dfs(tree.right, "left").root;
             this.delete(wanted, this.tree);
             prevTree[branch].root = wanted;
-
-            // inorder successor or postorderl successor code stuff goes here
-            // tree has both children;
-            // traverse to the right children first;
-            // now, traverse to the left children until we get to a leaf node;
-            // copy leaf node root value to the current node root;
-            // delete leaf node;
-
           };
         };
 
