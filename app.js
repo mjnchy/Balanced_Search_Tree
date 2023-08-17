@@ -49,6 +49,14 @@ function makeBST (arr) {
   let tree =  buildTree(sortedArr);
   let workingArr = arr;
 
+  function dfs (tree, branch) {
+    if (!tree[branch]) return tree;
+    
+    tree = tree[branch];
+
+    return dfs(tree, branch);
+  };
+
   return {
     tree: () => tree,
 
@@ -81,7 +89,17 @@ function makeBST (arr) {
           }
 
           else {
+            let wanted = dfs(tree.right, "left").root;
+            this.delete(wanted, this.tree);
+            prevTree[branch].root = wanted;
+
             // inorder successor or postorderl successor code stuff goes here
+            // tree has both children;
+            // traverse to the right children first;
+            // now, traverse to the left children until we get to a leaf node;
+            // copy leaf node root value to the current node root;
+            // delete leaf node;
+
           };
         };
 
@@ -97,7 +115,7 @@ function makeBST (arr) {
 
 
 
-let testTree = makeBST([5, 1, 2, 3, 10, 9, 8, 6, 7, 4]);
+let testTree = makeBST([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 
 // sort given array;
 // make the binary tree with a null root, a null left subtree and a null right subtree;
