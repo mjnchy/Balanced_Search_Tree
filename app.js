@@ -49,9 +49,24 @@ function makeBST (arr) {
   let tree =  buildTree(sortedArr);
   let workingArr = arr;
 
+  function bfs (tree) {
+    let queue = [tree];
+    let arr = [];
+
+    while (queue.length) {
+      let currentTree = queue.shift();
+
+      arr.push(currentTree);
+      currentTree.left? queue.push(currentTree.left): null;
+      currentTree.right? queue.push(currentTree.right): null;
+    };
+
+    return arr;
+  };
+
   function dfs (tree, branch) {
     if (!tree[branch]) return tree;
-    
+
     tree = tree[branch];
 
     return dfs(tree, branch);
@@ -85,6 +100,7 @@ function makeBST (arr) {
 
     delete (value) {
       let self = this;
+      
       function cases (value, tree, prevTree = null, branch) {
         if (!tree.left && !tree.right) prevTree[branch] = null
 
@@ -94,7 +110,7 @@ function makeBST (arr) {
           if (singleChild === true) {
             let childNode = tree.left? tree.left: tree.right;
             prevTree[branch] = childNode;
-            delete childNode;
+            childNode = null;
           }
 
           else {
@@ -108,6 +124,11 @@ function makeBST (arr) {
       };
 
       return this.find(value, this.tree(), null, null, cases);
+    },
+
+    levelOrder (callback) {
+      let arr = bfs(this.tree());
+      return callback? arr.forEach(node => callback(node)): arr;
     },
 
   };
