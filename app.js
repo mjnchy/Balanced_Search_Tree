@@ -204,6 +204,21 @@ function makeBST (arr) {
     depth (node) {
       return getDepth(this.tree(), node, this);
     },
+
+    isBalanced () {
+      let tree = this.tree();
+      
+      if (!tree) return true;
+
+      let leftHeight = this.height(tree.left);
+      let rightHeight = this.height(tree.right);
+
+      return Math.abs(leftHeight - rightHeight) <= 1? true: false;
+    },
+
+    rebalance () {
+      return tree = buildTree(quicksort(workingArr));
+    }
   };
 };
 
