@@ -170,18 +170,20 @@ function makeBST (arr) {
     postorder (callback) {
       return traverse(this.tree(), "postorder", [], callback);
     },
+
+    height (node = this.tree(), level = 0) {
+      if (!node) return -1;
+      if (!node.left && !node.right) return level;
+
+      let leftHeight =  this.height(node.left, level + 1);
+      let rightHeight = this.height(node.right, level + 1);
+
+      return Math.max(leftHeight, rightHeight);
+    },
   };
 };
 
 
-function height (node) {
-  // check for children
-  // if node has no children, return 0
-  // if node has children, travel to every leaf node for every child and increment 0 by 1 each time we go a level deeper
-  // we can do the above step recursively and save a left and right value on each recursion
-  // we only return the largest number on each recursion
-  // hence, we have the number of edges between the input node and the leaf node on the longest path from the longest node 
-};
 
 
 
