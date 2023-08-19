@@ -64,12 +64,40 @@ function makeBST (arr) {
     return arr;
   };
 
-  function dfs (tree, branch) {
+  function getLeaf (tree, branch) {
     if (!tree[branch]) return tree;
-
     tree = tree[branch];
+    return getLeaf(tree, branch);
+  };
 
-    return dfs(tree, branch);
+  function traverse (tree, order, arr = [], callback) {
+    switch (order) {
+      case "preorder":
+        if (!tree) return arr;
+
+        arr.push(tree);
+        traverse(tree.left, "preorder", arr);
+        traverse(tree.right, "preorder", arr);
+        break;
+
+      case "inorder":
+        if (!tree) return arr;
+
+        traverse(tree.left, "inorder", arr);
+        arr.push(tree);
+        traverse(tree.right, "inorder", arr);
+        break;
+
+      case "postorder":
+        if (!tree) return arr;
+
+        traverse(tree.left, "postorder", arr);
+        traverse(tree.right, "postorder", arr);
+        arr.push(tree);
+        break;
+    };
+
+    return callback? arr.forEach(node => callback(node)): arr;
   };
 
   return {
@@ -114,7 +142,7 @@ function makeBST (arr) {
           }
 
           else {
-            let wanted = dfs(tree.right, "left").root;
+            let wanted = getLeaf(tree.right, "left").root;
             self.delete(wanted);
             prevTree[branch].root = wanted;
           };
@@ -131,8 +159,39 @@ function makeBST (arr) {
       return callback? arr.forEach(node => callback(node)): arr;
     },
 
+    inorder (callback) {
+      return traverse(this.tree(), "inorder", [], callback);
+    },
+
+    preorder (callback) {
+      return traverse(this.tree(), "preorder", [], callback);
+    },
+
+    postorder (callback) {
+      return traverse(this.tree(), "postorder", [], callback);
+    },
   };
 };
+
+
+function height (node) {
+  // check for children
+  // if node has no children, return 0
+  // if node has children, travel to every leaf node for every child and increment 0 by 1 each time we go a level deeper
+  // we can do the above step recursively and save a left and right value on each recursion
+  // we only return the largest number on each recursion
+  // hence, we have the number of edges between the input node and the leaf node on the longest path from the longest node 
+};
+
+
+
+
+
+
+
+
+
+
 
 
 
