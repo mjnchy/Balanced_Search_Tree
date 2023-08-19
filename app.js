@@ -100,6 +100,32 @@ function makeBST (arr) {
     return callback? arr.forEach(node => callback(node)): arr;
   };
 
+  function getDepth (node, wanted = "leaf", scope, depth = 0) {
+    if (!node) return -1;
+    if (!node.left && !node.right) return depth;
+
+    if (wanted === "leaf") {
+      let leftDepth = getDepth(node.left, "leaf", scope, depth + 1);
+      let rightDepth = getDepth(node.right, "leaf", scope, depth + 1);
+
+      return Math.max(leftDepth, rightDepth);
+    }
+
+    else {
+      let wantedValue = typeof wanted === "object"? wanted.root: wanted;
+      
+      if (node === scope.find(wantedValue)) return depth;
+
+      if (wantedValue < node.root) return getDepth(node.left, wantedValue, scope, depth + 1)
+      else return getDepth(node.right, wantedValue, scope, depth + 1);
+
+      // set node to root node 
+      // run find on wanted which returns a node and set wanted to its result 
+      // increment depth by one for each level until wanted is found;
+      // return depth;
+    };
+  };
+
   return {
     tree: () => tree,
 
@@ -171,18 +197,15 @@ function makeBST (arr) {
       return traverse(this.tree(), "postorder", [], callback);
     },
 
-    height (node = this.tree(), level = 0) {
-      if (!node) return -1;
-      if (!node.left && !node.right) return level;
+    height (node = this.tree()) {
+      return getDepth(node, "leaf", this);
+    },
 
-      let leftHeight =  this.height(node.left, level + 1);
-      let rightHeight = this.height(node.right, level + 1);
-
-      return Math.max(leftHeight, rightHeight);
+    depth (node) {
+      return getDepth(this.tree(), node, this);
     },
   };
 };
-
 
 
 
