@@ -222,25 +222,9 @@ function makeBST (arr) {
   };
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-let testTree = makeBST([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-
 // sort given array;
 // make the binary tree with a null root, a null left subtree and a null right subtree;
 // take the midpint of the now sorted array and set it as the root element of the top level node;
 // now that the array is sorted and the midpoint of the array is the top level root element, we are left with a defined root, a null left and a null right subtree in the node itself;
 // We come up with two new arrays, one for all items to the left of the midpoint in the original array and one for all items to the right of the midpoint of the original array;
 // We should now be able to recursively call the function to sort all the remaining items;
-
